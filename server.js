@@ -3,7 +3,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 var cors = require('cors')
 const productRoutes = require("./routes/products");
-
+const orderRoutes = require("./routes/order");
+const userRoutes = require("./routes/users");
 
 dotenv.config({ path: "./config.env" });
 const PORT = process.env.PORT;
@@ -23,8 +24,8 @@ app.use((req, res, next) => {
 
 //routes
 app.use("/api", productRoutes);
-
-
+app.use("/api", orderRoutes);
+app.use("/api",userRoutes);
 //connect to db
 mongoose.set('strictQuery', true);
 
