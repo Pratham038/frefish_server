@@ -49,22 +49,37 @@ const getProduct = async(req,res) =>{
 }
 
 //update workout
+const updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findOneAndUpdate(
+      { id: req.params.id },
+      {
+        $set: {
+        image: req.body.image,
+        quantity: req.body.quantity,
+        stock: req.body.stock,
+        name: req.body.name,
+        reviews: req.body.reviews,
+        stars: req.body.stars,
+        price: req.body.price,
+        description: req.body.description,
+        category: req.body.category,
+        featured: req.body.featured,
+        },
+      },
+      { new: true }
+    );
 
-const updateProduct = async(req,res) => {
-  // const {id} = req.params
+    if (!product) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-  // if(!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error:'NO such PRODUCT'})
-  // }
-  const product = await Product.findOneAndUpdate({id:req.params.id},{
-     ...req.body 
-  })
-  if (!product){
-      return res.status(404).json({error:'No such PRODUCT'})
+    res.status(200).json(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
   }
-  res.status(200).json(product)
 }
-
 
 // delete a workout
 

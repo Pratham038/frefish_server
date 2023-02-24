@@ -14,6 +14,7 @@ router.post("/orders", async (req, res) => {
       quantity:req.body.quantity,
       shipping_fee: req.body.shipping_fee,
       total_price: req.body.total_price,
+      address:req.body.address
     });
     await order.save();
     res.status(201).json({
@@ -26,37 +27,22 @@ router.post("/orders", async (req, res) => {
     });
   }
 });
-//   const cart = await Cart.findOne();
-//   if (!cart) return res.status(404).json({ message: "Cart not found" });
-
-//   const orderItems = [];
-//   for (const item of cart.items) {
-//     const product = await Product.findById(item.product);
-//     if (!product) return res.status(404).json({ message: "Product not found" });
-
-//     orderItems.push({
-//       product: product._id,
-//       quantity: item.quantity
-//     });
-//   }
-
-//   const order = new Order({
-//     items: orderItems,
-//     user: req.body.userId
-//   });
-
-//   try {
-//     const createdOrder = await order.save();
-//     res.status(201).json(createdOrder);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-
 
 // Get all orders
 router.get("/orders", async (req, res) => {
   try {
     const orders = await Order.find();
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all orders by user_email
+router.get("/orders/:user_email", async (req, res) => {
+  try {
+    const { user_email } = req.params;
+    const orders = await Order.find({ user_email: user_email });
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });

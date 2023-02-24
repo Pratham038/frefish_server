@@ -12,11 +12,15 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
   username: {
     type: String,
-    required: true
+    required: true,
   },
   user_email: {
     type: String,
-    required: true
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
   },
   cart: { type: Array },
   quantity: { type: Number, required: true },
